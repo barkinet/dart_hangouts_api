@@ -28,6 +28,9 @@ abstract class HangoutEvent {
   static const int FACE_TRACKING_DATA = 30;
   static const int RESOURCE_LOAD_RESULT = 31;
   
+  // gapi.hangout.data events
+  static const int MESSAGE_RECEIVED_EVENT = 32;
+  static const int STATE_CHANGED_EVENT = 33;
   
   HangoutEvent._internal();
   
@@ -58,6 +61,10 @@ abstract class HangoutEvent {
       // gapi.hangout.av.effects events
       case FACE_TRACKING_DATA: return new FaceTrackingData._internal(data);
       case RESOURCE_LOAD_RESULT: return new ResourceLoadResult._internal(data);
+      
+      // gapi.hangout.data events
+      case MESSAGE_RECEIVED_EVENT: return new MessageReceivedEvent._internal(data);
+      case STATE_CHANGED_EVENT: return new StateChangedEvent._internal(data);      
       
       default: throw(new HangoutAPIException("Unknown Event Type"));
     }
