@@ -22,6 +22,23 @@ String makeStringCall(List<String> name, [List params = const []]) {
   return value;
 }
 
+num makeNumCall(List<String> name, [List params = const []]) {
+  num value;
+  js.scoped(() {
+    var ns = js.context.gapi.hangout;
+    name.forEach((s) {
+      ns = ns[s];
+    });
+    switch (params.length) {
+      case 0: value = ns(); break;
+      case 1: value = ns(params[0]); break;
+      default: value = ns(params[0], params[1]); break;
+    }
+  });
+  return value;
+}
+
+
 bool makeBoolCall(List<String> name, [List params = const []]) {
   bool value;
   js.scoped(() {

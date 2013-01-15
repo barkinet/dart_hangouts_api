@@ -1,4 +1,5 @@
 import "dart:html";
+import "dart:json";
 import "package:hangouts_api/hangouts_api.dart";
 
 void main() {
@@ -13,8 +14,9 @@ void main() {
   hapi.onApiReady.add((ApiReadyEvent event) {
     if (event.isApiReady) {
       window.setTimeout(() {
-        var participants = hapi.getEnabledParticipants();
-        participants.forEach((p) => output("${p.person.id} ${p.person.displayName}"));
+        hapi.av.onVolumesChanged.add((VolumesChangedEvent event) {
+          print(JSON.stringify(event.volumes));
+        });
       }, 1);
     }
   });

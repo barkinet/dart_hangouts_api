@@ -17,25 +17,42 @@ abstract class HangoutEvent {
   
   // gapi.hangout.av events
   static const int CAMERA_MUTE_EVENT = 20;
+  static const int HAS_CAMERA_EVENT = 21;
+  static const int HAS_MICROPHONE_EVENT = 22;
+  static const int HAS_SPEAKERS_EVENT = 23;
+  static const int LOCAL_PARTICIPANT_VIDEO_MIRRORED_CHANGED_EVENT = 24;
+  static const int MICROPHONE_MUTE_EVENT = 25;
+  static const int VOLUMES_CHANGED_EVENT = 26;
+  
   
   HangoutEvent._internal();
   
   factory HangoutEvent(type, js.Proxy data) {
+    switch (type) {
     // gapi.hangout events
-    if (type == API_READY_EVENT) return new ApiReadyEvent._internal(data);
-    if (type == APP_VISIBLE_EVENT) return new AppVisibleEvent._internal(data);
-    if (type == ENABLED_PARTICIPANTS_CHANGED_EVENT) return new EnabledParticipantsChangedEvent._internal(data);
-    if (type == PARTICIPANTS_ADDED_EVENT) return new ParticipantsAddedEvent._internal(data);
-    if (type == PARTICIPANTS_CHANGED_EVENT) return new ParticipantsChangedEvent._internal(data);
-    if (type == PARTICIPANTS_DISABLED_EVENT) return new ParticipantsDisabledEvent._internal(data);
-    if (type == PARTICIPANTS_ENABLED_EVENT) return new ParticipantsEnabledEvent._internal(data);
-    if (type == PARTICIPANTS_REMOVED_EVENT) return new ParticipantsRemovedEvent._internal(data);
-    if (type == PREFERRED_LOCALE_CHANGED_EVENT) return new PreferredLocaleChangedEvent._internal(data);
-    if (type == PUBLIC_CHANGED_EVENT) return new PublicChangedEvent._internal(data);
-    if (type == TOPIC_CHANGED_EVENT) return new TopicChangedEvent._internal(data);
-    
-    // gapi.hangout.av events
-    if (type == CAMERA_MUTE_EVENT) return new CameraMuteEvent._internal(data);
+      case API_READY_EVENT:return new ApiReadyEvent._internal(data);
+      case APP_VISIBLE_EVENT: return new AppVisibleEvent._internal(data);
+      case ENABLED_PARTICIPANTS_CHANGED_EVENT: return new EnabledParticipantsChangedEvent._internal(data);
+      case PARTICIPANTS_ADDED_EVENT: return new ParticipantsAddedEvent._internal(data);
+      case PARTICIPANTS_CHANGED_EVENT: return new ParticipantsChangedEvent._internal(data);
+      case PARTICIPANTS_DISABLED_EVENT: return new ParticipantsDisabledEvent._internal(data);
+      case PARTICIPANTS_ENABLED_EVENT: return new ParticipantsEnabledEvent._internal(data);
+      case PARTICIPANTS_REMOVED_EVENT: return new ParticipantsRemovedEvent._internal(data);
+      case PREFERRED_LOCALE_CHANGED_EVENT: return new PreferredLocaleChangedEvent._internal(data);
+      case PUBLIC_CHANGED_EVENT: return new PublicChangedEvent._internal(data);
+      case TOPIC_CHANGED_EVENT: return new TopicChangedEvent._internal(data);
+      
+      // gapi.hangout.av events
+      case CAMERA_MUTE_EVENT: return new CameraMuteEvent._internal(data);
+      case HAS_CAMERA_EVENT: return new HasCameraEvent._internal(data);
+      case HAS_MICROPHONE_EVENT: return new HasMicrophoneEvent._internal(data);
+      case HAS_SPEAKERS_EVENT: return new HasSpeakersEvent._internal(data);
+      case LOCAL_PARTICIPANT_VIDEO_MIRRORED_CHANGED_EVENT: return new LocalParticipantVideoMirroredChangedEvent._internal(data);
+      case MICROPHONE_MUTE_EVENT: return new MicrophoneMuteEvent._internal(data);
+      case VOLUMES_CHANGED_EVENT: return new VolumesChangedEvent._internal(data);
+      
+      default: throw(new HangoutAPIException("Unknown Event Type"));
+    }
   }
 }
 

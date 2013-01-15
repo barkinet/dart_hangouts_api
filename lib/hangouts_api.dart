@@ -1,5 +1,6 @@
 library hangouts_api;
 
+import "dart:json";
 import "package:js/js.dart" as js;
 
 part "src/utils.dart";
