@@ -29,8 +29,13 @@ abstract class HangoutEvent {
   static const int RESOURCE_LOAD_RESULT = 31;
   
   // gapi.hangout.data events
-  static const int MESSAGE_RECEIVED_EVENT = 32;
-  static const int STATE_CHANGED_EVENT = 33;
+  static const int MESSAGE_RECEIVED_EVENT = 40;
+  static const int STATE_CHANGED_EVENT = 41;
+  
+  // gapi.hangout.layout events
+  static const int CHAT_PANE_VISIBLE_EVENT = 50;
+  static const int HAS_NOTICE_EVENT = 51;
+  static const int DISPLAYED_PARTICIPANT_CHANGED_EVENT = 52;
   
   HangoutEvent._internal();
   
@@ -65,6 +70,11 @@ abstract class HangoutEvent {
       // gapi.hangout.data events
       case MESSAGE_RECEIVED_EVENT: return new MessageReceivedEvent._internal(data);
       case STATE_CHANGED_EVENT: return new StateChangedEvent._internal(data);      
+      
+      // gapi.hangout.layout events
+      case CHAT_PANE_VISIBLE_EVENT: return new ChatPaneVisibleEvent._internal(data);
+      case HAS_NOTICE_EVENT: return new HasNoticeEvent._internal(data);
+      case DISPLAYED_PARTICIPANT_CHANGED_EVENT: return new DisplayedParticipantChangedEvent._internal(data);
       
       default: throw(new HangoutAPIException("Unknown Event Type"));
     }

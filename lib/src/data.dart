@@ -119,7 +119,7 @@ class MessageReceivedEvent extends HangoutEvent {
       senderId = data["senderId"];
       message = data["message"];
     } else {
-      throw new HangoutAPIException("Invalid return value in onMessageReceive callback");
+      throw new HangoutAPIException("Invalid return value in onMessageReceived callback");
     }
     js.release(data);
   }
@@ -159,7 +159,7 @@ class StateChangedEvent extends HangoutEvent {
         metadata[key] = new StateMetadata._internalMap(meta);
       });
     } else {
-      throw new HangoutAPIException("Invalid return value in onVolumesChanged callback");
+      throw new HangoutAPIException("Invalid return value in onStateChanged callback");
     }
     js.release(data);
   }
