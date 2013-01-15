@@ -49,7 +49,7 @@ class AudioResource extends ProxyObject {
       data = this._makeProxyCall("createSound", [optParams]);
     else
       data = this._makeProxyCall("createSound");
-    return new Sound._internal(data); 
+    return new Sound._internal(this, data); 
   }
   
   void dispose() => this._makeVoidCall("dispose");
@@ -68,16 +68,74 @@ class AudioResource extends ProxyObject {
       data = this._makeProxyCall("play", [optParams]);
     else
       data = this._makeProxyCall("play");
-    return new Sound._internal(data);
+    return new Sound._internal(this, data);
   }
   
 }
 
 class FaceTrackingOverlay extends ProxyObject {
   
-  FaceTrackingOverlay._internal(js.Proxy proxy) : super._internal(proxy) {
-    
+  ImageResource _imageResource;
+  
+  FaceTrackingOverlay._internal(ImageResource this._imageResource, js.Proxy proxy) : super._internal(proxy);
+  
+  void dispose() => this._makeVoidCall("dispose");
+  
+  ImageResource getImageResource() => _imageResource;
+  
+  Position getOffset() {
+    var data = this._makeProxyCall("getOffset");
+    var pos;
+    js.scoped(() {
+      if (data != null) {
+        pos = new Position._internalProxy(data);
+      }
+      js.release(data);
+    });
+    return pos;
   }
+  
+  bool getRotateWithFace() => this._makeBoolCall("getRotateWithFace");
+  
+  num getRotation() => this._makeNumCall("getRotation");
+  
+  num getScale() => this._makeNumCall("getScale");
+  
+  bool getScaleWithFace() => this._makeBoolCall("getScaleWithFace");
+  
+  String getTrackingFeature() => this._makeStringCall("getTrackingFeature");
+  
+  bool isDisposed() => this._makeBoolCall("isDisposed");
+  
+  bool isVisible() => this._makeBoolCall("isVisible");
+  
+  void setOffset(value, [num opt_y]) {
+    if (value is! num && value is! Map<String, num>) {
+      throw(new ArgumentError("value has be be num or Map<String, num>"));
+      return;
+    }
+    if (value is num) {
+      if(?opt_y && opt_y != null) {
+        this._makeVoidCall("setOffset", [value, opt_y]);
+      } else {
+        throw(new ArgumentError("If value is num, opt_y has to be set as well"));
+      }
+    } else {
+      this._makeVoidCall("setOffset", [value]);
+    }
+  }
+  
+  void setRotateWithFace(bool shouldRotate) => this._makeVoidCall("setRotateWithFace", [shouldRotate]);
+  
+  void setRotation(num rotation) => this._makeVoidCall("setRotation", [rotation]);
+  
+  void setScale(num rotation) => this._makeVoidCall("setScale", [rotation]);
+  
+  void setScaleWithFace(bool shouldScale) => this._makeVoidCall("setScaleWithFace", [shouldScale]);
+  
+  void setTrackingFeature(String feature) => this._makeVoidCall("setTrackingFeature", [feature]);
+  
+  void setVisible(bool visible) => this._makeVoidCall("setVisible", [visible]);
 }
 
 class ImageResource extends ProxyObject {
@@ -92,14 +150,18 @@ class ImageResource extends ProxyObject {
 
 class Overlay extends ProxyObject {
   
-  Overlay._internal(js.Proxy proxy) : super._internal(proxy) {
+  ImageResource _imageResource;
+  
+  Overlay._internal(ImageResource this._imageResource, js.Proxy proxy) : super._internal(proxy) {
     
   }
 }
 
 class Sound extends ProxyObject {
   
-  Sound._internal(js.Proxy proxy) : super._internal(proxy) {
+  AudioResource _audioResource;
+  
+  Sound._internal(AudioResource this._audioResource, js.Proxy proxy) : super._internal(proxy) {
     
   }
 }
@@ -150,8 +212,6 @@ class FaceTrackingData extends HangoutEvent {
 class Position {
   num x;
   num y;
-  
-  Position(this.x, this.y);
   
   Position._internalProxy(js.Proxy data) {
     if (data["x"] != null) x = data["x"];
