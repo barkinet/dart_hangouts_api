@@ -14,9 +14,10 @@ void main() {
   hapi.onApiReady.add((ApiReadyEvent event) {
     if (event.isApiReady) {
       window.setTimeout(() {
-        hapi.av.onVolumesChanged.add((VolumesChangedEvent event) {
-          print(JSON.stringify(event.volumes));
-        });
+        output(JSON.stringify(hapi.av.getVolumes()));
+        hapi.av.setCameraMute(true);
+        hapi.av.setParticipantAudioLevel(hapi.getLocalParticipantId(), [0.1, 3]);
+        output(JSON.stringify(hapi.av.getParticipantAudioLevel(hapi.getLocalParticipantId())));
       }, 1);
     }
   });

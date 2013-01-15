@@ -6,6 +6,12 @@ class HangoutAPIException implements Exception {
   String toString() => (msg == null) ? "HangoutAPIException" : "HangoutAPIException: $msg";
 }
 
+js.Proxy createParamProxy(param) {
+  if (param is List) return js.array(param);
+  if (param is Map) return js.map(param);
+  return param;
+}
+
 String makeStringCall(List<String> name, [List params = const []]) {
   String value;
   js.scoped(() {
@@ -15,8 +21,8 @@ String makeStringCall(List<String> name, [List params = const []]) {
     });
     switch (params.length) {
       case 0: value = ns(); break;
-      case 1: value = ns(params[0]); break;
-      default: value = ns(params[0], params[1]); break;
+      case 1: value = ns(createParamProxy(params[0])); break;
+      default: value = ns(createParamProxy(params[0]), createParamProxy(params[1])); break;
     }
   });
   return value;
@@ -31,8 +37,8 @@ num makeNumCall(List<String> name, [List params = const []]) {
     });
     switch (params.length) {
       case 0: value = ns(); break;
-      case 1: value = ns(params[0]); break;
-      default: value = ns(params[0], params[1]); break;
+      case 1: value = ns(createParamProxy(params[0])); break;
+      default: value = ns(createParamProxy(params[0]), createParamProxy(params[1])); break;
     }
   });
   return value;
@@ -48,8 +54,8 @@ bool makeBoolCall(List<String> name, [List params = const []]) {
     });
     switch (params.length) {
       case 0: value = ns(); break;
-      case 1: value = ns(params[0]); break;
-      default: value = ns(params[0], params[1]); break;
+      case 1: value = ns(createParamProxy(params[0])); break;
+      default: value = ns(createParamProxy(params[0]), createParamProxy(params[1])); break;
     }
   });
   return value;
@@ -63,8 +69,8 @@ void makeVoidCall(List<String> name, [List params = const []]) {
     });
     switch (params.length) {
       case 0: ns(); break;
-      case 1: ns(params[0]); break;
-      default: ns(params[0], params[1]); break;
+      case 1: ns(createParamProxy(params[0])); break;
+      default: ns(createParamProxy(params[0]), createParamProxy(params[1])); break;
     }
   });
 }
@@ -78,8 +84,8 @@ js.Proxy makeProxyCall(List<String> name, [List params = const []]) {
     });
     switch (params.length) {
       case 0: value = ns(); break;
-      case 1: value = ns(params[0]); break;
-      default: value = ns(params[0], params[1]); break;
+      case 1: value = ns(createParamProxy(params[0])); break;
+      default: value = ns(createParamProxy(params[0]), createParamProxy(params[1])); break;
     }
     js.retain(value);
   });
