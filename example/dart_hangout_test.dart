@@ -12,17 +12,10 @@ void main() {
   
   hapi.onApiReady.add((ApiReadyEvent event) {
     if (event.isApiReady) {
-      output("API Ready!");
-      output(hapi.getHangoutId());
-      output(hapi.getHangoutUrl());
-      output(hapi.isAppVisible());
-      hapi.onAppVisible.add((AppVisibleEvent event) {
-        output("App visible: ${event.isAppVisible}");
-      });
-      hapi.av.onCameraMute.add((CameraMuteEvent event) {
-        output("Camera muted: ${event.isCameraMute}");
-      });
-      hapi.hideApp();
+      window.setTimeout(() {
+        var participants = hapi.getEnabledParticipants();
+        participants.forEach((p) => output("${p.person.id} ${p.person.displayName}"));
+      }, 1);
     }
   });
 }

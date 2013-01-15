@@ -67,42 +67,71 @@ class Hangout {
     _onTopicChanged = new ManyEventHandler._internal(["onTopicChanged"], HangoutEvent.TOPIC_CHANGED_EVENT);
   }
   
-  // TODO: Dummy needs to be filled
-  List<Participant> getEnabledParticipants() => null;
+  List<Participant> getEnabledParticipants() {
+    var data = makeProxyCall(["getEnabledParticipants"]);
+    var participants = new List<Participant>();
+    js.scoped(() {
+      for (var i = 0; i < data.length; i++) {
+        var proxy = data[i];
+        if (proxy != null) participants.add(new Participant._internal(proxy));
+      }
+      js.release(data);
+    });
+    return participants;
+  }
   
-  String getHangoutUrl() => simpleStringCall(["getHangoutUrl"]);
+  String getHangoutUrl() => makeStringCall(["getHangoutUrl"]);
   
-  String getHangoutId() => simpleStringCall(["getHangoutId"]);
+  String getHangoutId() => makeStringCall(["getHangoutId"]);
 
-  String getLocalParticipantLocale() => simpleStringCall(["getLocalParticipantLocale"]);
+  String getLocalParticipantLocale() => makeStringCall(["getLocalParticipantLocale"]);
   
-  String getPreferredLocale() => simpleStringCall(["getPreferredLocale"]);
+  String getPreferredLocale() => makeStringCall(["getPreferredLocale"]);
   
-  String getStartData() => simpleStringCall(["getStartData"]);
+  String getStartData() => makeStringCall(["getStartData"]);
   
-  // TODO: Dummy needs to be filled
-  Participant getParticipantById(String participantId) => null;
+  Participant getParticipantById(String participantId) {
+    var data = makeProxyCall(["getLocalParticipant"], [participantId]);
+    var participant = null;
+    js.scoped(() {
+      if (data != null) participant = new Participant._internal(data);
+      js.release(data);
+    });
+    return participant;
+  }
   
-  // TODO: Dummy needs to be filled
-  Participant getLocalParticipant() => null;
+  Participant getLocalParticipant() {
+    var data = makeProxyCall(["getLocalParticipant"]);
+    var participant = null;
+    js.scoped(() {
+      if (data != null) participant = new Participant._internal(data);
+      js.release(data);
+    });
+    return participant;
+  }
   
-  // TODO: Dummy needs to be filled
-  List<Participant> getParticipants() => null;
+  List<Participant> getParticipants() {
+    var data = makeProxyCall(["getParticipants"]);
+    var participants = new List<Participant>();
+    js.scoped(() {
+      for (var i = 0; i < data.length; i++) {
+        var proxy = data[i];
+        if (proxy != null) participants.add(new Participant._internal(proxy));
+      }
+      js.release(data);
+    });
+    return participants;
+  }
   
-  // TODO: Dummy needs to be filled
-  String getTopic() => simpleStringCall(["getTopic"]);
+  String getTopic() => makeStringCall(["getTopic"]);
   
-  // TODO: Dummy needs to be filled
-  void hideApp() => simpleVoidCall(["hideApp"]);
+  void hideApp() => makeVoidCall(["hideApp"]);
   
-  // TODO: Dummy needs to be filled
-  bool isApiReady() => simpleBoolCall(["isApiReady"]);
+  bool isApiReady() => makeBoolCall(["isApiReady"]);
   
-  // TODO: Dummy needs to be filled
-  bool isAppVisible() => simpleBoolCall(["isAppVisible"]);
+  bool isAppVisible() => makeBoolCall(["isAppVisible"]);
   
-  // TODO: Dummy needs to be filled
-  bool isPublic() => simpleBoolCall(["isPublic"]);
+  bool isPublic() => makeBoolCall(["isPublic"]);
 }
 
 class Participant {
