@@ -126,7 +126,7 @@ class Hangout {
   
   /// Gets the participants who are running the app.
   List<Participant> getEnabledParticipants() {
-    var data = makeProxyCall(["getEnabledParticipants"]);
+    var data = _makeProxyCall(["getEnabledParticipants"]);
     var participants = new List<Participant>();
     js.scoped(() {
       for (var i = 0; i < data.length; i++) {
@@ -142,38 +142,38 @@ class Hangout {
    * Gets the URL for the hangout.
    * Example URL: 'https://talkgadget.google.com/hangouts/_/1b8d9e10742f576bc994e18866ea'
    */
-  String getHangoutUrl() => makeStringCall(["getHangoutUrl"]);
+  String getHangoutUrl() => _makeStringCall(["getHangoutUrl"]);
   
   /**
    * Gets an identifier for the hangout guaranteed to be unique for the hangout's duration.
    * The API makes no other guarantees about this identifier.
    * Example of hangout ID: 'muvc-private-chat-99999a93-6273-390d-894a-473226328d79@groupchat.google.com'
    */
-  String getHangoutId() => makeStringCall(["getHangoutId"]);
+  String getHangoutId() => _makeStringCall(["getHangoutId"]);
 
   /**
    * Gets the locale for the local participant.
    * Example: 'en'
    */
-  String getLocalParticipantLocale() => makeStringCall(["getLocalParticipantLocale"]);
+  String getLocalParticipantLocale() => _makeStringCall(["getLocalParticipantLocale"]);
   
   /**
    * Gets the preferred locale for the hangout. The user can set this locale prior to starting a hangout.
    * It may differ from gapi.hangout.getLocalParticipantLocale.
    * Example: 'en'
    */
-  String getPreferredLocale() => makeStringCall(["getPreferredLocale"]);
+  String getPreferredLocale() => _makeStringCall(["getPreferredLocale"]);
   
   /**
    * Gets the starting data for the current active app.
    * This is the data passed in by the gd URL parameter.
    * Returns null if no start data has been specified.
    */
-  String getStartData() => makeStringCall(["getStartData"]);
+  String getStartData() => _makeStringCall(["getStartData"]);
   
   /// Gets the [Participant] with the given [participantId]. Returns null if no participant exists with the given ID.
   Participant getParticipantById(String participantId) {
-    var data = makeProxyCall(["getLocalParticipant"], [participantId]);
+    var data = _makeProxyCall(["getLocalParticipant"], [participantId]);
     var participant = null;
     js.scoped(() {
       if (data != null) participant = new Participant._internal(data);
@@ -184,7 +184,7 @@ class Hangout {
   
   /// Gets the local [Participant].
   Participant getLocalParticipant() {
-    var data = makeProxyCall(["getLocalParticipant"]);
+    var data = _makeProxyCall(["getLocalParticipant"]);
     var participant = null;
     js.scoped(() {
       if (data != null) participant = new Participant._internal(data);
@@ -197,14 +197,14 @@ class Hangout {
    * Gets the ID of the local participant. A user is assigned a new ID each time they join a hangout.
    * Example: 'hangout65A4C551_ephemeral.id.google.com^354e9d1ed0'
    */
-  String getLocalParticipantId() => makeStringCall(["getLocalParticipantId"]);
+  String getLocalParticipantId() => _makeStringCall(["getLocalParticipantId"]);
   
   /**
    * Gets the participants in the hangout. Note that the list of participants reflects the current state on the hangouts server.
    * There can be a small window of time where the local participant is not in the returned array.
    */
   List<Participant> getParticipants() {
-    var data = makeProxyCall(["getParticipants"]);
+    var data = _makeProxyCall(["getParticipants"]);
     var participants = new List<Participant>();
     js.scoped(() {
       for (var i = 0; i < data.length; i++) {
@@ -217,22 +217,22 @@ class Hangout {
   }
   
   /// Returns the current hangout topic, or an empty string if a topic was not specified.
-  String getTopic() => makeStringCall(["getTopic"]);
+  String getTopic() => _makeStringCall(["getTopic"]);
   
   /// Sets the app as not visible in the main hangout window. The app will continue to run while it is hidden.
-  void hideApp() => makeVoidCall(["hideApp"]);
+  void hideApp() => _makeVoidCall(["hideApp"]);
   
   /**
    * Returns true if the gapi.hangout API is initialized; false otherwise.
    * Before the API is initialized, data values might have unexpected values.
    */
-  bool isApiReady() => makeBoolCall(["isApiReady"]);
+  bool isApiReady() => _makeBoolCall(["isApiReady"]);
   
   /// Returns true if the app is visible in the main hangout window, false otherwise.
-  bool isAppVisible() => makeBoolCall(["isAppVisible"]);
+  bool isAppVisible() => _makeBoolCall(["isAppVisible"]);
   
   /// Returns true if the hangout is open to the public, false otherwise.
-  bool isPublic() => makeBoolCall(["isPublic"]);
+  bool isPublic() => _makeBoolCall(["isPublic"]);
 }
 
 

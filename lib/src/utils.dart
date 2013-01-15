@@ -6,13 +6,19 @@ class HangoutAPIException implements Exception {
   String toString() => (msg == null) ? "HangoutAPIException" : "HangoutAPIException: $msg";
 }
 
+abstract class ProxyObject {
+  js.Proxy _proxy;
+  
+  ProxyObject._internal(js.Proxy this._proxy);
+}
+
 js.Proxy createParamProxy(param) {
   if (param is List) return js.array(param);
   if (param is Map) return js.map(param);
   return param;
 }
 
-String makeStringCall(List<String> name, [List params = const []]) {
+String _makeStringCall(List<String> name, [List params = const []]) {
   String value;
   js.scoped(() {
     var ns = js.context.gapi.hangout;
@@ -28,7 +34,7 @@ String makeStringCall(List<String> name, [List params = const []]) {
   return value;
 }
 
-num makeNumCall(List<String> name, [List params = const []]) {
+num _makeNumCall(List<String> name, [List params = const []]) {
   num value;
   js.scoped(() {
     var ns = js.context.gapi.hangout;
@@ -45,7 +51,7 @@ num makeNumCall(List<String> name, [List params = const []]) {
 }
 
 
-bool makeBoolCall(List<String> name, [List params = const []]) {
+bool _makeBoolCall(List<String> name, [List params = const []]) {
   bool value;
   js.scoped(() {
     var ns = js.context.gapi.hangout;
@@ -61,7 +67,7 @@ bool makeBoolCall(List<String> name, [List params = const []]) {
   return value;
 }
 
-void makeVoidCall(List<String> name, [List params = const []]) {
+void _makeVoidCall(List<String> name, [List params = const []]) {
   js.scoped(() {
     var ns = js.context.gapi.hangout;
     name.forEach((s) {
@@ -75,7 +81,7 @@ void makeVoidCall(List<String> name, [List params = const []]) {
   });
 }
 
-js.Proxy makeProxyCall(List<String> name, [List params = const []]) {
+js.Proxy _makeProxyCall(List<String> name, [List params = const []]) {
   js.Proxy value;
   js.scoped(() {
     var ns = js.context.gapi.hangout;

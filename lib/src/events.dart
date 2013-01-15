@@ -24,6 +24,10 @@ abstract class HangoutEvent {
   static const int MICROPHONE_MUTE_EVENT = 25;
   static const int VOLUMES_CHANGED_EVENT = 26;
   
+  // gapi.hangout.av.effects events
+  static const int FACE_TRACKING_DATA = 30;
+  static const int RESOURCE_LOAD_RESULT = 31;
+  
   
   HangoutEvent._internal();
   
@@ -51,17 +55,48 @@ abstract class HangoutEvent {
       case MICROPHONE_MUTE_EVENT: return new MicrophoneMuteEvent._internal(data);
       case VOLUMES_CHANGED_EVENT: return new VolumesChangedEvent._internal(data);
       
+      // gapi.hangout.av.effects events
+      case FACE_TRACKING_DATA: return new FaceTrackingData._internal(data);
+      case RESOURCE_LOAD_RESULT: return new ResourceLoadResult._internal(data);
+      
       default: throw(new HangoutAPIException("Unknown Event Type"));
     }
   }
 }
 
-class OnceEventHandler {
-  
+abstract class EventHandler {
+
   List _callbacks;
   bool _registered;
   List<String> _event;
+  js.Proxy _proxy;
   int _eventType;
+  
+  EventHandler._internal(List<String> this._event, int this._eventType) {
+    _callbacks = new List();
+    _registered = false;
+  }
+  
+  EventHandler._internalProxy(js.Proxy this._proxy, int this._eventType) {
+    _callbacks = new List();
+    _registered = false;
+  }
+  
+  void _callback(js.Proxy eventData);
+  void add(Function f);
+
+  void remove(Function f) {
+    if (_callbacks.indexOf(f) >= 0) {
+      _callbacks.removeAt(_callbacks.indexOf(f));
+    }
+  }
+  
+}
+
+class OnceEventHandler extends EventHandler {
+  
+  OnceEventHandler._internal(List<String> event, int eventType) : super._internal(event, eventType);
+  OnceEventHandler._internalProxy(js.Proxy proxy, int eventType) : super._internalProxy(proxy, eventType);
   
   void _callback(js.Proxy eventData) {
     var eventObj = new HangoutEvent(_eventType, eventData);
@@ -78,32 +113,25 @@ class OnceEventHandler {
     if (!_registered) {
       _registered = true;
       js.scoped(() {
-        var c = js.context.gapi.hangout;
-        _event.forEach((s) {
-          c = c[s];
-        });
-        c.add(new js.Callback.once(_callback));
+        var call;
+        if (_proxy != null) {
+          call = _proxy;
+        } else {
+          call = js.context.gapi.hangout;
+          _event.forEach((s) {
+            call = call[s];
+          });
+        }
+        call.add(new js.Callback.once(_callback));
       });
     }
-  }
-  
-  void remove(Function f) {
-    if (_callbacks.indexOf(f) >= 0) {
-      _callbacks.removeAt(_callbacks.indexOf(f));
-    }
-  }
-  
-  OnceEventHandler._internal(List<String> this._event, int this._eventType) {
-    _callbacks = new List();
-    _registered = false;
-  }
+  }  
 }
 
-class ManyEventHandler {
-  List _callbacks;
-  bool _registered;
-  List<String> _event;
-  int _eventType;
+class ManyEventHandler extends EventHandler{
+  
+  ManyEventHandler._internal(List<String> event, int eventType) : super._internal(event, eventType);
+  ManyEventHandler._internalProxy(js.Proxy proxy, int eventType) : super._internalProxy(proxy, eventType);
   
   void _callback(js.Proxy eventData) {
     var eventObj = new HangoutEvent(_eventType, eventData);
@@ -118,23 +146,17 @@ class ManyEventHandler {
     if (!_registered) {
       _registered = true;
       js.scoped(() {
-        var c = js.context.gapi.hangout;
-        _event.forEach((s) {
-          c = c[s];
-        });
-        c.add(new js.Callback.many(_callback));
+        var call;
+        if (_proxy != null) {
+          call = _proxy;
+        } else {
+          call = js.context.gapi.hangout;
+          _event.forEach((s) {
+            call = call[s];
+          });
+        }
+        call.add(new js.Callback.many(_callback));
       });
     }
-  }
-  
-  void remove(Function f) {
-    if (_callbacks.indexOf(f) >= 0) {
-      _callbacks.removeAt(_callbacks.indexOf(f));
-    }
-  }
-  
-  ManyEventHandler._internal(List<String> this._event, int this._eventType) {
-    _callbacks = new List();
-    _registered = false;
   }
 }

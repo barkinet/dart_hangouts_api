@@ -18,6 +18,9 @@ void main() {
         hapi.av.setCameraMute(true);
         hapi.av.setParticipantAudioLevel(hapi.getLocalParticipantId(), [0.1, 3]);
         output(JSON.stringify(hapi.av.getParticipantAudioLevel(hapi.getLocalParticipantId())));
+        hapi.av.onCameraMute.add((CameraMuteEvent e) {
+          output(e.isCameraMute);
+        });
       }, 1);
     }
   });

@@ -6,9 +6,10 @@ class HangoutAv {
   
   HangoutAvEffects _effects;
   
+  /// Provides ability to add sound effects and attach image overlays to faces.
   HangoutAvEffects get effects => _effects;
 
-  
+
   ManyEventHandler _onCameraMute;
   ManyEventHandler _onHasCamera;
   ManyEventHandler _onHasMicrophone;
@@ -61,14 +62,14 @@ class HangoutAv {
   }
   
   /// Removes avatar image displayed over the video feed.
-  void clearAvatar(String participantId) => makeVoidCall(["av", "clearAvatar"], [participantId]);
+  void clearAvatar(String participantId) => _makeVoidCall(["av", "clearAvatar"], [participantId]);
   
   /**
    *  Gets the audio level for a participant as set by [setParticipantAudioLevel].
    *  Returns a two-element array where the first element is the level of the left audio channel and the second element is the level of the right audio channel.
    */
   List<num> getParticipantAudioLevel(String participantId) {
-    var data = makeProxyCall(["av", "getParticipantAudioLevel"], [participantId]);
+    var data = _makeProxyCall(["av", "getParticipantAudioLevel"], [participantId]);
     var level = null;
     js.scoped(() {
       if (data != null) {
@@ -80,16 +81,16 @@ class HangoutAv {
   }
   
   /// Gets the URL for the avatar image for the given participant. Returns null if no avatar image is set for the participant.
-  String getAvatar(String participantId) => makeStringCall(["av", "getAvatar"], [participantId]);
+  String getAvatar(String participantId) => _makeStringCall(["av", "getAvatar"], [participantId]);
 
   /// Returns true if the local participant's camera is currently sending video, false otherwise.
-  bool getCameraMute() => makeBoolCall(["av", "getCameraMute"]);
+  bool getCameraMute() => _makeBoolCall(["av", "getCameraMute"]);
   
   /// Returns true if the microphone is muted for the local participant, false otherwise.
-  bool getMicrophoneMute() => makeBoolCall(["av", "getMicrophoneMute"]);
+  bool getMicrophoneMute() => _makeBoolCall(["av", "getMicrophoneMute"]);
   
   /// Gets the current audio volume for the given participant, a number from 0 to 5, inclusive.
-  num getParticipantVolume(String participantId) => makeNumCall(["av", "getParticipantVolume"], [participantId]);
+  num getParticipantVolume(String participantId) => _makeNumCall(["av", "getParticipantVolume"], [participantId]);
 
   /**
    * Gets the current audio volume level for all participants.
@@ -97,7 +98,7 @@ class HangoutAv {
    * The volume is a number from 0 to 5, inclusive.
    */
   Map<String, num> getVolumes() {
-    var data = makeProxyCall(["av", "getVolumes"]);
+    var data = _makeProxyCall(["av", "getVolumes"]);
     var level = null;
     js.scoped(() {
       if (data != null) {
@@ -109,28 +110,28 @@ class HangoutAv {
   }
   
   /// Returns true if the local participant has an active camera, false otherwise.
-  bool hasCamera() => makeBoolCall(["av", "hasCamera"]);
+  bool hasCamera() => _makeBoolCall(["av", "hasCamera"]);
 
   /// Returns true if the local participant has a working mic, false otherwise.
-  bool hasMicrophone() => makeBoolCall(["av", "hasMicrophone"]);
+  bool hasMicrophone() => _makeBoolCall(["av", "hasMicrophone"]);
   
   /// Returns true if the local participant has working audio speakers, false otherwise.
-  bool hasSpeakers() => makeBoolCall(["av", "hasSpeakers"]);
+  bool hasSpeakers() => _makeBoolCall(["av", "hasSpeakers"]);
   
   /// Returns true if the video of the local participant appears mirrored to the local participant, false otherwise.
-  bool isLocalParticipantVideoMirrored() => makeBoolCall(["av", "isLocalParticipantVideoMirrored"]);
+  bool isLocalParticipantVideoMirrored() => _makeBoolCall(["av", "isLocalParticipantVideoMirrored"]);
   
   /// Returns true if the participant's audio is muted for the local participant, false otherwise.
-  bool isParticipantAudible(String participantId) => makeBoolCall(["av", "isParticipantAudible"], [participantId]);
+  bool isParticipantAudible(String participantId) => _makeBoolCall(["av", "isParticipantAudible"], [participantId]);
   
   /// Returns true if the participant's video is muted for the local participant, false otherwise.
-  bool isParticipantVisible(String participantId) => makeBoolCall(["av", "isParticipantVisible"], [participantId]);
+  bool isParticipantVisible(String participantId) => _makeBoolCall(["av", "isParticipantVisible"], [participantId]);
   
   /// Mutes a participant's microphone.
-  void muteParticipantMicrophone(String participantId) => makeVoidCall(["av", "muteParticipantMicrophone"], [participantId]);
+  void muteParticipantMicrophone(String participantId) => _makeVoidCall(["av", "muteParticipantMicrophone"], [participantId]);
   
   /// Mutes a participant's microphone.
-  void setLocalParticipantVideoMirrored(bool mirrored) => makeVoidCall(["av", "setLocalParticipantVideoMirrored"], [mirrored]);
+  void setLocalParticipantVideoMirrored(bool mirrored) => _makeVoidCall(["av", "setLocalParticipantVideoMirrored"], [mirrored]);
   
   
   /**
@@ -145,7 +146,7 @@ class HangoutAv {
       throw(new ArgumentError("audioLevel has be be num or List<num>"));
       return;
     }
-    makeVoidCall(["av", "setParticipantAudioLevel"], [participantId, audioLevel]);
+    _makeVoidCall(["av", "setParticipantAudioLevel"], [participantId, audioLevel]);
   }
   
   /**
@@ -153,23 +154,23 @@ class HangoutAv {
    * Note this affects only the view seen by the local participant.
    * The other participants in the hangout will still see the video feed for the given participant.
    */
-  void setAvatar(String participantId, String imageUrl) => makeVoidCall(["av", "setAvatar"], [participantId, imageUrl]);
+  void setAvatar(String participantId, String imageUrl) => _makeVoidCall(["av", "setAvatar"], [participantId, imageUrl]);
   
   /// Starts or stops the local participant from sending video to the other hangout participants.
-  void setCameraMute(bool muted) => makeVoidCall(["av", "setCameraMute"], [muted]);
+  void setCameraMute(bool muted) => _makeVoidCall(["av", "setCameraMute"], [muted]);
   
   /// Reverts the camera mute state to the last state set by the local participant.
-  void clearCameraMute() => makeVoidCall(["av", "clearCameraMute"]);
+  void clearCameraMute() => _makeVoidCall(["av", "clearCameraMute"]);
   
   /// Mutes or unmutes the microphone for the local participant.
-  void setMicrophoneMute(bool muted) => makeVoidCall(["av", "setMicrophoneMute"], [muted]);
+  void setMicrophoneMute(bool muted) => _makeVoidCall(["av", "setMicrophoneMute"], [muted]);
   
   /// Reverts the microphone mute state to the last state set by the local participant.
-  void clearMicrophoneMute() => makeVoidCall(["av", "clearMicrophoneMute"]);
+  void clearMicrophoneMute() => _makeVoidCall(["av", "clearMicrophoneMute"]);
   
-  void setParticipantAudible(String participantId, bool audible) => makeVoidCall(["av", "setParticipantAudible"], [participantId, audible]);
+  void setParticipantAudible(String participantId, bool audible) => _makeVoidCall(["av", "setParticipantAudible"], [participantId, audible]);
   
-  void setParticipantVisible(String participantId, bool visible) => makeVoidCall(["av", "setParticipantVisible"], [participantId, visible]);
+  void setParticipantVisible(String participantId, bool visible) => _makeVoidCall(["av", "setParticipantVisible"], [participantId, visible]);
 }
 
 // ****************************
