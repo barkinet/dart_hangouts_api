@@ -42,6 +42,35 @@ class AudioResource extends ProxyObject {
   AudioResource._internal(js.Proxy proxy) : super._internal(proxy) {
     _onLoad = new OnceEventHandler._internalProxy(_proxy, HangoutEvent.RESOURCE_LOAD_RESULT);
   }
+  
+  Sound createSound([Map optParams]) {
+    var data;
+    if (?optParams && optParams != null)
+      data = this._makeProxyCall("createSound", [optParams]);
+    else
+      data = this._makeProxyCall("createSound");
+    return new Sound._internal(data); 
+  }
+  
+  void dispose() => this._makeVoidCall("dispose");
+  
+  String getState() => this._makeStringCall("getState");
+  
+  String getUrl() => this._makeStringCall("getUrl");
+  
+  bool isDisposed() => this._makeBoolCall("isDisposed");
+  
+  bool isLoaded() => this._makeBoolCall("isLoaded");
+  
+  Sound play([Map optParams]) {
+    var data;
+    if (?optParams && optParams != null)
+      data = this._makeProxyCall("play", [optParams]);
+    else
+      data = this._makeProxyCall("play");
+    return new Sound._internal(data);
+  }
+  
 }
 
 class FaceTrackingOverlay extends ProxyObject {
