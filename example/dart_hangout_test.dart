@@ -21,6 +21,7 @@ void main() {
         hapi.av.onCameraMute.add((CameraMuteEvent e) {
           output(e.isCameraMute);
         });
+        output(hapi.av.effects.ScaleReference.HEIGHT);
       }, 1);
     }
   });

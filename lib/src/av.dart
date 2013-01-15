@@ -52,6 +52,8 @@ class HangoutAv {
   ManyEventHandler get onVolumesChanged => _onVolumesChanged;
   
   HangoutAv._internal() {
+    _effects = new HangoutAvEffects._internal();
+    
     _onCameraMute = new ManyEventHandler._internal(["av", "onCameraMute"], HangoutEvent.CAMERA_MUTE_EVENT);
     _onHasCamera = new ManyEventHandler._internal(["av", "onHasCamera"], HangoutEvent.HAS_CAMERA_EVENT);
     _onHasMicrophone = new ManyEventHandler._internal(["av", "onHasMicrophone"], HangoutEvent.HAS_MICROPHONE_EVENT);
