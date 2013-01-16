@@ -17,7 +17,7 @@ Add this dependency to your pubspec.yaml
 
 ```
   dependencies:
-    dart_hangouts_api:
+    hangouts_api:
       git: git://github.com/Scarygami/dart_hangouts_api.git
 ```
 
