@@ -4,40 +4,35 @@ import "package:hangouts_api/hangouts_api.dart";
 
 var hapi;
 var outputDiv;
-var counter;
 
 void output(str, [bool replace = false]) {
   if (replace) outputDiv.text = "";
-  outputDiv.appendHtml("$str<br>");
+  outputDiv.appendHtml("$str<br><br>");
 }
 
 void tests() {
   
-  var video = hapi.layout.getVideoCanvas();
+  hapi.data.onStateChanged.add((StateChangedEvent e) {
+    output(JSON.stringify(e.addedKeys), true);
+    output(JSON.stringify(e.removedKeys));
+    output(JSON.stringify(e.metadata));
+    output(JSON.stringify(e.state));
+  });
   
-  video.setPosition({"left": 200, "top": 200});
-  
+  hapi.onParticipantsChanged.add((ParticipantsChangedEvent e) {
+    output("", true);
+    e.participants.forEach((p) {
+      output(p.person.displayName);
+    });
+  });
+
   query("#button1").on.click.add((event) {
-    hapi.layout.getVideoCanvas().setVisible(!hapi.layout.getVideoCanvas().isVisible());
-  });
-
-  query("#button2").on.click.add((event) {
-    hapi.layout.getVideoCanvas().setPosition(200, 200);
-  });
-  
-  query("#button3").on.click.add((event) {
-    Map position = hapi.layout.getVideoCanvas().getPosition();
-    position["left"] = position["left"] + 10; 
-    position["top"] = position["top"] + 10;
-    hapi.layout.getVideoCanvas().setPosition(position);
-  });
-
-  query("#button4").on.click.add((event) {
-    hapi.layout.getVideoCanvas().setVideoFeed(hapi.layout.getDefaultVideoFeed());
+    hapi.data.submitDelta({"lastUpdate": hapi.getLocalParticipant().person.displayName}, []);
   });
   
   query("#button5").on.click.add((event) {
-    hapi.layout.getVideoCanvas().setVideoFeed(hapi.layout.createParticipantVideoFeed(hapi.getLocalParticipantId()));
+    hapi.layout.getVideoCanvas().setPosition(200, 200);
+    hapi.layout.getVideoCanvas().setVisible(!hapi.layout.getVideoCanvas().isVisible());
   });
 
 }
@@ -46,7 +41,6 @@ void main() {
   hapi = new Hangout();
   outputDiv = query("#text");
   outputDiv.text = "";
-  counter = 0;
   
   hapi.onApiReady.add((ApiReadyEvent event) {
     if (event.isApiReady) {

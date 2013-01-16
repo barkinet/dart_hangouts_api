@@ -37,6 +37,11 @@ abstract class HangoutEvent {
   static const int HAS_NOTICE_EVENT = 51;
   static const int DISPLAYED_PARTICIPANT_CHANGED_EVENT = 52;
   
+  // gapi.hangout.onair events
+  static const int BROADCASTING_CHANGED_EVENT = 60;
+  static const int NEW_PARTICIPANT_IN_BROADCAST_CHANGED_EVENT = 61;
+  static const int YOUTUBE_LIVEID_READY_EVENT = 62;
+  
   HangoutEvent._internal();
   
   factory HangoutEvent(type, js.Proxy data) {
@@ -75,6 +80,11 @@ abstract class HangoutEvent {
       case CHAT_PANE_VISIBLE_EVENT: return new ChatPaneVisibleEvent._internal(data);
       case HAS_NOTICE_EVENT: return new HasNoticeEvent._internal(data);
       case DISPLAYED_PARTICIPANT_CHANGED_EVENT: return new DisplayedParticipantChangedEvent._internal(data);
+      
+      case BROADCASTING_CHANGED_EVENT: return new BroadcastingChangedEvent._internal(data);
+      case NEW_PARTICIPANT_IN_BROADCAST_CHANGED_EVENT: return new NewParticipantInBroadcastChangedEvent._internal(data);
+      case YOUTUBE_LIVEID_READY_EVENT: return new YouTubeLiveIdReadyEvent._internal(data);
+
       
       default: throw(new HangoutAPIException("Unknown Event Type"));
     }
