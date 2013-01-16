@@ -60,7 +60,7 @@ Create a Gadget xml file similar to this to include your HTML.
   </Module>
 ```
 
-Make sure to use a full server path for <YOUR_SERVER_PATH> which has to be a publicly available.
+Make sure to use a full server path for `<YOUR_SERVER_PATH>` which has to be a publicly available.
 
 In your Dart application import the Hangout API Library:
 
@@ -84,7 +84,7 @@ You can then use all of the API calls as documented at https://developers.google
 
 ### Testing
 
-To test your application you will first have to upload it (including the packages) to <YOUR_SERVER_PATH>
+To test your application you will first have to upload it (including the packages) to `<YOUR_SERVER_PATH>`
 
 Then go to [google apis console](https://code.google.com/apis/console/) and create a new Project
 Create a new `Client ID` for web applications in "API Access"
