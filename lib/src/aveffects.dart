@@ -90,27 +90,31 @@ class AudioResource extends ProxyObject {
    */
   Sound createSound([Map optParams]) {
     var data;
-    if (?optParams && optParams != null)
-      data = this._makeProxyCall("createSound", [optParams]);
-    else
-      data = this._makeProxyCall("createSound");
+    js.scoped(() {
+      if (?optParams && optParams != null)
+        data = _proxy.createSound(_createParamProxy(optParams));
+      else
+        data = _proxy.createSound();
+      
+      js.retain(data);
+    });
     return new Sound._internal(this, data); 
   }
   
   /// Disposes the resource and all sounds created from the resource.
-  void dispose() => this._makeVoidCall("dispose");
+  void dispose() => js.scoped(() => _proxy.dispose());
   
   /// Returns the state of the resource.
-  String getState() => this._makeStringCall("getState");
+  String getState() => js.scoped(() => _proxy.getState());
   
   /// Returns the URL of the audio file for the resource.
-  String getUrl() => this._makeStringCall("getUrl");
+  String getUrl() => js.scoped(() => _proxy.getUrl());
   
   /// Returns true if the resource has been disposed.
-  bool isDisposed() => this._makeBoolCall("isDisposed");
+  bool isDisposed() => js.scoped(() => _proxy.isDisposed());
   
   /// Returns true if the resource has successfully loaded.
-  bool isLoaded() => this._makeBoolCall("isLoaded");
+  bool isLoaded() => js.scoped(() => _proxy.isLoaded());
   
   /**
    *  Creates a new instance of a sound and starts it playing. 
@@ -122,11 +126,15 @@ class AudioResource extends ProxyObject {
    */
   Sound play([Map optParams]) {
     var data;
-    if (?optParams && optParams != null)
-      data = this._makeProxyCall("play", [optParams]);
-    else
-      data = this._makeProxyCall("play");
-    return new Sound._internal(this, data);
+    js.scoped(() {
+      if (?optParams && optParams != null)
+        data = _proxy.play(_createParamProxy(optParams));
+      else
+        data = _proxy.play();
+      
+      js.retain(data);
+    });
+    return new Sound._internal(this, data); 
   }
   
 }
@@ -143,51 +151,48 @@ class FaceTrackingOverlay extends ProxyObject {
   FaceTrackingOverlay._internal(ImageResource this._imageResource, js.Proxy proxy) : super._internal(proxy);
   
   /// Disposes the overlay.
-  void dispose() => this._makeVoidCall("dispose");
+  void dispose() => js.scoped(() => _proxy.dispose());
   
   /// Returns the [ImageResource] used to create this object.
   ImageResource getImageResource() => _imageResource;
   
   /// Returns the offset of the image overlay from the [FaceTrackingFeatureEnum].
-  Position getOffset() {
-    var data = this._makeProxyCall("getOffset");
-    var pos;
-    js.scoped(() {
-      if (data != null) {
-        pos = new Position._internalProxy(data);
-      }
-      js.release(data);
+  Map<String, num> getOffset() {
+    var data, pos;
+    js.scoped(() { 
+      data = _proxy.getOffset();
+      if (data != null) pos = JSON.parse(js.context.JSON.stringify(data));
     });
     return pos;
   }
   
   /// Returns true if the image will rotate as the face rotates, false otherwise.
-  bool getRotateWithFace() => this._makeBoolCall("getRotateWithFace");
+  bool getRotateWithFace() => js.scoped(() => _proxy.getRotateWithFace());
   
   /**
    * Returns the base rotation of an image in radians.
    * This does not include any rotation occurring because of the getRotateWithFace flag.
    */
-  num getRotation() => this._makeNumCall("getRotation");
+  num getRotation() => js.scoped(() => _proxy.getRotation());
 
   /**
    * Returns the scale in relation to the natural image size of the overlay.
    * This does not include any scaling occurring because of the getScaleWithFace flag.
    * Example: a scale of 2 would cause the image to be twice its natural size.
    */
-  num getScale() => this._makeNumCall("getScale");
+  num getScale() => js.scoped(() => _proxy.getScale());
   
   /// Returns true if the size of the image will scale with the size of the face that is being tracked, false otherwise.
-  bool getScaleWithFace() => this._makeBoolCall("getScaleWithFace");
+  bool getScaleWithFace() => js.scoped(() => _proxy.getScaleWithFace());
   
   /// Returns the feature of the face that the image overlay is attached to.
-  String getTrackingFeature() => this._makeStringCall("getTrackingFeature");
+  String getTrackingFeature() => js.scoped(() => _proxy.getTrackingFeature());
   
   /// Returns true if the overlay has been disposed.
-  bool isDisposed() => this._makeBoolCall("isDisposed");
+  bool isDisposed() => js.scoped(() => _proxy.isDisposed());
   
   /// Returns true if the image overlay is currently visible in the local participant's video feed, false otherwise.
-  bool isVisible() => this._makeBoolCall("isVisible");
+  bool isVisible() => js.scoped(() => _proxy.isVisible());
   
   /**
    * Sets the offset of the image overlay from the feature of the face being tracked.
@@ -209,32 +214,32 @@ class FaceTrackingOverlay extends ProxyObject {
     }
     if (value is num) {
       if(?opt_y && opt_y != null) {
-        this._makeVoidCall("setOffset", [value, opt_y]);
+        js.scoped(() => _proxy.setOffset(value, opt_y));
       } else {
         throw(new ArgumentError("If value is num, opt_y has to be set as well"));
       }
     } else {
-      this._makeVoidCall("setOffset", [value]);
+      js.scoped(() => _proxy.setOffset(_createParamProxy(value)));
     }
   }
 
   /// Sets whether the image should rotate as the face rotates.
-  void setRotateWithFace(bool shouldRotate) => this._makeVoidCall("setRotateWithFace", [shouldRotate]);
+  void setRotateWithFace(bool shouldRotate) => js.scoped(() => _proxy.setRotateWithFace(shouldRotate));
   
   /// Sets the rotation for an image in radians. This will be in addition to any rotation caused by setRotateWithFace.
-  void setRotation(num rotation) => this._makeVoidCall("setRotation", [rotation]);
+  void setRotation(num rotation) => js.scoped(() => _proxy.setRotation(rotation));
   
   /// Sets the amount an image should be scaled.
-  void setScale(num rotation) => this._makeVoidCall("setScale", [rotation]);
+  void setScale(num scale) => js.scoped(() => _proxy.setScale(scale));
   
   /// Sets whether an image should scale as the face being tracked gets larger or smaller.
-  void setScaleWithFace(bool shouldScale) => this._makeVoidCall("setScaleWithFace", [shouldScale]);
+  void setScaleWithFace(bool shouldScale) => js.scoped(() => _proxy.setScaleWithFace(shouldScale));
   
   /// Sets the face feature that the image overlay is attached to.
-  void setTrackingFeature(String feature) => this._makeVoidCall("setTrackingFeature", [feature]);
+  void setTrackingFeature(String feature) => js.scoped(() => _proxy.setTrackingFeature(feature));
   
   /// Sets the image overlay to be visible or not.
-  void setVisible(bool visible) => this._makeVoidCall("setVisible", [visible]);
+  void setVisible(bool visible) => js.scoped(() => _proxy.visible(visible));
 }
 
 /**
@@ -261,10 +266,14 @@ class ImageResource extends ProxyObject {
    */
   FaceTrackingOverlay createFaceTrackingOverlay([Map optParams]) {
     var data;
-    if (?optParams && optParams != null)
-      data = this._makeProxyCall("createFaceTrackingOverlay", [optParams]);
-    else
-      data = this._makeProxyCall("createFaceTrackingOverlay");
+    js.scoped(() {
+      if (?optParams && optParams != null)
+        data = _proxy.createFaceTrackingOverlay(_createParamProxy(optParams));
+      else
+        data = _proxy.createFaceTrackingOverlay();
+      
+      js.retain(data);
+    });
     return new FaceTrackingOverlay._internal(this, data); 
   }
   
@@ -277,27 +286,31 @@ class ImageResource extends ProxyObject {
    */
   Overlay createOverlay([Map optParams]) {
     var data;
-    if (?optParams && optParams != null)
-      data = this._makeProxyCall("createOverlay", [optParams]);
-    else
-      data = this._makeProxyCall("createOverlay");
-    return new Overlay._internal(this, data); 
+    js.scoped(() {
+      if (?optParams && optParams != null)
+        data = _proxy.createOverlay(_createParamProxy(optParams));
+      else
+        data = _proxy.createOverlay();
+      
+      js.retain(data);
+    });
+    return new Overlay._internal(this, data);
   }
   
   /// Disposes the overlay.
-  void dispose() => this._makeVoidCall("dispose");
+  void dispose() => js.scoped(() => _proxy.dispose());
   
   /// Returns the state of the resource.
-  String getState() => this._makeStringCall("getState");
+  String getState() => js.scoped(() => _proxy.getState());
   
   /// The URL of the image file for the resource.
-  String getUrl() => this._makeStringCall("getUrl");
+  String getUrl() => js.scoped(() => _proxy.getUrl());
   
   /// Returns true if the resource has been disposed.
-  bool isDisposed() => this._makeBoolCall("isDisposed");
+  bool isDisposed() => js.scoped(() => _proxy.isDisposed());
   
   /// Returns true if the resource has successfully loaded.
-  bool isLoaded() => this._makeBoolCall("isLoaded");
+  bool isLoaded() => js.scoped(() => _proxy.isLoaded());
   
   /**
    * Creates a new instance of a face tracking overlay with this image and displays it.
@@ -309,10 +322,14 @@ class ImageResource extends ProxyObject {
    */
   FaceTrackingOverlay showFaceTrackingOverlay([Map optParams]) {
     var data;
-    if (?optParams && optParams != null)
-      data = this._makeProxyCall("showFaceTrackingOverlay", [optParams]);
-    else
-      data = this._makeProxyCall("showFaceTrackingOverlay");
+    js.scoped(() {
+      if (?optParams && optParams != null)
+        data = _proxy.showFaceTrackingOverlay(_createParamProxy(optParams));
+      else
+        data = _proxy.showFaceTrackingOverlay();
+      
+      js.retain(data);
+    });
     return new FaceTrackingOverlay._internal(this, data); 
   }
 
@@ -325,11 +342,15 @@ class ImageResource extends ProxyObject {
    */
   Overlay showOverlay([Map optParams]) {
     var data;
-    if (?optParams && optParams != null)
-      data = this._makeProxyCall("showOverlay", [optParams]);
-    else
-      data = this._makeProxyCall("showOverlay");
-    return new Overlay._internal(this, data); 
+    js.scoped(() {
+      if (?optParams && optParams != null)
+        data = _proxy.showOverlay(_createParamProxy(optParams));
+      else
+        data = _proxy.showOverlay();
+      
+      js.retain(data);
+    });
+    return new Overlay._internal(this, data);
   }
 }
 
@@ -347,26 +368,23 @@ class Overlay extends ProxyObject {
   Overlay._internal(ImageResource this._imageResource, js.Proxy proxy) : super._internal(proxy);
   
   /// Disposes the overlay.
-  void dispose() => this._makeVoidCall("dispose");
+  void dispose() => js.scoped(() => _proxy.dispose());
   
   /// Returns the [ImageResource] used to create this object.
   ImageResource getImageResource() => _imageResource;
   
   /// Returns the position of the image overlay
-  Position getPosition() {
-    var data = this._makeProxyCall("getPosition");
-    var pos;
-    js.scoped(() {
-      if (data != null) {
-        pos = new Position._internalProxy(data);
-      }
-      js.release(data);
+  Map<String, num> getPosition() {
+    var data, pos;
+    js.scoped(() { 
+      data = _proxy.getPosition();
+      if (data != null) pos = JSON.parse(js.context.JSON.stringify(data));
     });
     return pos;
   }
   
   /// Returns the rotation of an image in radians.
-  num getRotation() => this._makeNumCall("getRotation");
+  num getRotation() => js.scoped(() => _proxy.getRotation());
   
   /**
    * Returns the scale of the overlay.
@@ -375,22 +393,19 @@ class Overlay extends ProxyObject {
    * would indicate that the image will be scaled so its width is the same as the video feed.
    */
   Map getScale() {
-    var data = this._makeProxyCall("getScale");
-    var scale;
-    js.scoped(() {
-      if (data != null) {
-        scale = JSON.parse(js.context.JSON.stringify(data));
-      }
-      js.release(data);
+    var data, scale;
+    js.scoped(() { 
+      data = _proxy.getScale();
+      if (data != null) scale = JSON.parse(js.context.JSON.stringify(data));
     });
     return scale;
   }
   
   /// Returns true if the overlay has been disposed.
-  bool isDisposed() => this._makeBoolCall("isDisposed");
+  bool isDisposed() => js.scoped(() => _proxy.isDisposed());
   
   /// Returns true if the image overlay is currently visible in the local participant's video feed, false otherwise.
-  bool isVisible() => this._makeBoolCall("isVisible");
+  bool isVisible() => js.scoped(() => _proxy.isVisible());
   
   /**
    * Sets the position of the image overlay. With an offset of (0,0), the overlay is centered on the video feed.
@@ -413,17 +428,17 @@ class Overlay extends ProxyObject {
     }
     if (value is num) {
       if(?opt_y && opt_y != null) {
-        this._makeVoidCall("setPosition", [value, opt_y]);
+        js.scoped(() => _proxy.setPosition(value, opt_y));
       } else {
         throw(new ArgumentError("If value is num, opt_y has to be set as well"));
       }
     } else {
-      this._makeVoidCall("setPosition", [value]);
+      js.scoped(() => _proxy.setPosition(_createParamProxy(value)));
     }
   }
   
   /// Sets the rotation for an image in radians.
-  void setRotation(num rotation) => this._makeVoidCall("setRotation", [rotation]);
+  void setRotation(num rotation) => js.scoped(() => _proxy.setRotation(rotation));
   
   /**
    * Sets the amount an image should be scaled.
@@ -435,23 +450,23 @@ class Overlay extends ProxyObject {
    * The aspect of the video feed which the image is scaled relative to.
    */
   void setScale(value, [String opt_reference]) {
-    if (value is! num && value is! Map) {
+    if (value is! num && value is! Map<String, num>) {
       throw(new ArgumentError("value has be be num or Map"));
       return;
     }
     if (value is num) {
       if(?opt_reference && opt_reference != null) {
-        this._makeVoidCall("setScale", [value, opt_reference]);
+        js.scoped(() => _proxy.setScale(value, opt_reference));
       } else {
         throw(new ArgumentError("If value is num, opt_reference has to be set as well"));
       }
     } else {
-      this._makeVoidCall("setScale", [value]);
+      js.scoped(() => _proxy.setScale(_createParamProxy(value)));
     }
   }
   
   /// Sets the image overlay to be visible or not.
-  void setVisible(bool visible) => this._makeVoidCall("setVisible", [visible]);
+  void setVisible(bool visible) => js.scoped(() => _proxy.setVisible(visible));
 }
 
 /**
@@ -466,37 +481,37 @@ class Sound extends ProxyObject {
   Sound._internal(AudioResource this._audioResource, js.Proxy proxy) : super._internal(proxy);
   
   /// Disposes the sound.
-  void dispose() => this._makeVoidCall("dispose");
+  void dispose() => js.scoped(() => _proxy.dispose());
   
   /// The [AudioResource] used to create this Sound.
   AudioResource getAudioResource() => _audioResource;
   
   /// The volume, in the range 0-1, of the sound.
-  num getVolume() => this._makeNumCall("getVolume");
+  num getVolume() => js.scoped(() => _proxy.getVolume());
   
   /// Returns true if the sound has been disposed.
-  bool isDisposed() => this._makeBoolCall("isDisposed");
+  bool isDisposed() => js.scoped(() => _proxy.isDisposed());
   
   /**
    * Returns true if the sound plays only to the local participant.
    * Returns false if the sound plays to all participants and, if in a Hangout On Air, to broadcast viewers.
    */
-  bool isLocalOnly() => this._makeBoolCall("isLocalOnly");
+  bool isLocalOnly() => js.scoped(() => _proxy.isLocalOnly());
   
   /// Returns true if the sound will repeat, false otherwise.
-  bool isLooped() => this._makeBoolCall("isLooped");
+  bool isLooped() => js.scoped(() => _proxy.isLooped());
   
   /// Starts playing the sound.
-  void play() => this._makeVoidCall("play");
+  void play() => js.scoped(() => _proxy.play());
   
   /// Sets whether the sound will repeat or not, false otherwise.
-  void setLoop(bool loop) => this._makeVoidCall("setLoop", [loop]);
+  void setLoop(bool loop) => js.scoped(() => _proxy.setLoop(loop));
   
   /// Sets the volume of the sound, in the range 0-1.
-  void setVolume(num volume) => this._makeVoidCall("setVolume", [volume]);
+  void setVolume(num volume) => js.scoped(() => _proxy.setVolume(volume));
   
   /// Stops the sound if it is currently playing.
-  void stop() => this._makeVoidCall("stop");
+  void stop() => js.scoped(() => _proxy.stop());
 }
 
 /**

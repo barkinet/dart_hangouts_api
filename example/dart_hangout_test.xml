@@ -30,6 +30,11 @@
   </head>
   <body>
     <h1>Dart-Hangout-Test</h1>
+    <button id="button1">Button 1</button>
+    <button id="button2">Button 2</button>
+    <button id="button3">Button 3</button>
+    <button id="button4">Button 4</button>
+    <button id="button5">Button 5</button>
     <div id="container">
       <p id="text"></p>
     </div>

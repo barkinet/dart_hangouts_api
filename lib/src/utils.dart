@@ -16,65 +16,6 @@ abstract class ProxyObject {
   js.Proxy _proxy;
   
   ProxyObject._internal(js.Proxy this._proxy);
-  
-  String _makeStringCall(String name, [List params = const []]) {
-    String value;
-    js.scoped(() {
-      switch (params.length) {
-        case 0: value = _proxy[name](); break;
-        case 1: value = _proxy[name](_createParamProxy(params[0])); break;
-        default: value = _proxy[name](_createParamProxy(params[0]), _createParamProxy(params[1])); break;
-      }
-    });
-    return value;
-  }
-
-  num _makeNumCall(String name, [List params = const []]) {
-    num value;
-    js.scoped(() {
-      switch (params.length) {
-        case 0: value = _proxy[name](); break;
-        case 1: value = _proxy[name](_createParamProxy(params[0])); break;
-        default: value = _proxy[name](_createParamProxy(params[0]), _createParamProxy(params[1])); break;
-      }
-    });
-    return value;
-  }
-
-  bool _makeBoolCall(String name, [List params = const []]) {
-    bool value;
-    js.scoped(() {
-      switch (params.length) {
-        case 0: value = _proxy[name](); break;
-        case 1: value = _proxy[name](_createParamProxy(params[0])); break;
-        default: value = _proxy[name](_createParamProxy(params[0]), _createParamProxy(params[1])); break;
-      }
-    });
-    return value;
-  }
-
-  void _makeVoidCall(String name, [List params = const []]) {
-    js.scoped(() {
-      switch (params.length) {
-        case 0: _proxy[name](); break;
-        case 1: _proxy[name](_createParamProxy(params[0])); break;
-        default: _proxy[name](_createParamProxy(params[0]), _createParamProxy(params[1])); break;
-      }
-    });
-  }
-
-  js.Proxy _makeProxyCall(String name, [List params = const []]) {
-    js.Proxy value;
-    js.scoped(() {
-      switch (params.length) {
-        case 0: value = _proxy[name](); break;
-        case 1: value = _proxy[name](_createParamProxy(params[0])); break;
-        default: value = _proxy[name](_createParamProxy(params[0]), _createParamProxy(params[1])); break;
-      }
-      js.retain(value);
-    });
-    return value;
-  } 
 }
 
 String _makeStringCall(List<String> name, [List params = const []]) {

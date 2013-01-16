@@ -192,5 +192,9 @@ class StateMetadata {
     if (data["timediff"] != null) timediff = data["timediff"];
     if (data["value"] != null) value = data["value"];
   }
+
+  Map toJson() => {"key": key, "timediff": timediff, "timestamp": timestamp, "value": value};
+  
+  String toString() => JSON.stringify(this.toJson());
 }
 
