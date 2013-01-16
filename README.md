@@ -86,8 +86,10 @@ You can then use all of the API calls as documented at https://developers.google
 
 To test your application you will first have to upload it (including the packages) to `<YOUR_SERVER_PATH>`
 
-Then go to [google apis console](https://code.google.com/apis/console/) and create a new Project
+Then go to [google apis console](https://code.google.com/apis/console/) and create a new Project.
+
 Create a new `Client ID` for web applications in "API Access"
+
 Activate the Google+ Hangouts API in "Services"
 
 In "Hangouts" enter the URL to your XML file in Application URL.
